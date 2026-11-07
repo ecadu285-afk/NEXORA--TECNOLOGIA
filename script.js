@@ -205,3 +205,27 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   render();
 });
+
+
+// Raven 4.0 — profundidade discreta somente em dispositivos com mouse.
+(() => {
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const pointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+  if (reduced.matches || !pointer.matches) return;
+  const panel = document.querySelector('[data-raven-depth]');
+  if (!panel) return;
+  panel.addEventListener('pointermove', event => {
+    const r = panel.getBoundingClientRect();
+    const x = (event.clientX - r.left) / r.width - .5;
+    const y = (event.clientY - r.top) / r.height - .5;
+    panel.style.setProperty('--raven-x', `${(-y * 3).toFixed(2)}deg`);
+    panel.style.setProperty('--raven-y', `${(x * 3).toFixed(2)}deg`);
+  }, {passive:true});
+  panel.addEventListener('pointerleave', () => {
+    panel.style.setProperty('--raven-x', '0deg');
+    panel.style.setProperty('--raven-y', '0deg');
+  });
+  reduced.addEventListener('change', e => {
+    if (e.matches) {panel.style.setProperty('--raven-x', '0deg');panel.style.setProperty('--raven-y', '0deg');}
+  });
+})();

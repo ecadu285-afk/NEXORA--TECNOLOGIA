@@ -875,16 +875,21 @@ body.raven-modal-open { overflow:hidden; }
 @media(max-width:650px){.raven-shelf-track{grid-auto-columns:minmax(225px,78%);gap:12px}.raven-shelf-heading{align-items:center}.raven-shelf-arrow{width:35px;height:35px}.raven-shelf-track .raven-catalog-card{padding:17px;min-height:265px}}
 @media(prefers-reduced-motion:reduce){.raven-shelf-track{scroll-behavior:auto}}
 
-/* Raven 3.4 - video demonstrativo: isolado da versao 3.3 */
-.raven-film-section{padding:90px 0;background:radial-gradient(ellipse at 80% 10%,#20320f 0%,#0b110d 53%,#080d09 100%);border-block:1px solid rgba(186,255,0,.12)}
-.raven-film-layout{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(24px,5vw,72px)}
-.raven-film-copy{min-width:0}.raven-film-kicker{color:#baff00;font-weight:700;letter-spacing:.17em;font-size:.76rem}
-.raven-film-copy h2{font-size:clamp(2rem,4vw,3.5rem);line-height:1.1;color:#f3f8f0;margin:16px 0 20px}
-.raven-film-copy p{color:#b9c7b4;line-height:1.75;margin-bottom:26px}
-.raven-film-link{display:inline-flex;align-items:center;gap:12px;color:#0c1509;background:#baff00;padding:13px 20px;border-radius:10px;text-decoration:none;font-weight:750;transition:transform .2s,box-shadow .2s}
-.raven-film-link:hover{transform:translateY(-3px);box-shadow:0 12px 28px #baff0030}
-.raven-film-screen{min-width:0;padding:10px;background:#172015;border:1px solid #40592c;border-radius:19px;box-shadow:0 24px 70px #0008,0 0 35px #baff0010}
-.raven-film-screen video{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:11px;background:#070b07}
-.raven-film-footnote{font-size:.76rem;color:#a9b6a3;padding:12px 5px 3px}
-@media(max-width:800px){.raven-film-section{padding:54px 0}.raven-film-layout{grid-template-columns:1fr}}
-@media(prefers-reduced-motion:reduce){.raven-film-link{transition:none}}
+
+/* RAVEN 4.0 FINAL — efeitos discretos e acessíveis */
+:root{scroll-behavior:smooth}
+.raven-final-hero{position:relative;isolation:isolate;overflow:hidden}
+.raven-final-hero::before{content:"";position:absolute;z-index:-1;pointer-events:none;width:min(70vw,760px);aspect-ratio:1;right:-24%;top:-32%;border-radius:50%;background:radial-gradient(circle,rgba(186,255,0,.10),rgba(186,255,0,.025) 38%,transparent 68%);animation:ravenAmbient 12s ease-in-out infinite alternate}
+.raven-final-hero .hero-text h1{animation:ravenRise .7s both}
+.raven-final-hero .hero-description{animation:ravenRise .75s .12s both}
+.raven-final-hero .hero-buttons{animation:ravenRise .75s .2s both}
+.raven-depth{--raven-x:0deg;--raven-y:0deg;transform:perspective(1100px) rotateX(var(--raven-x)) rotateY(var(--raven-y));transition:transform .32s ease,box-shadow .32s ease;will-change:auto}
+.raven-catalog-card,.raven-price-card,.service-card,.project{transition:transform .26s ease,box-shadow .26s ease,border-color .26s ease}
+@media(hover:hover) and (pointer:fine){.raven-catalog-card:hover,.raven-price-card:hover,.service-card:hover,.project:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(0,0,0,.22)}.raven-depth:hover{box-shadow:0 22px 55px rgba(0,0,0,.32)}}
+.raven-shelf-track{scroll-padding-inline:4px}
+.raven-shelf-track:focus-visible{outline:2px solid #baff00;outline-offset:4px}
+:where(a,button,input,textarea,select,summary):focus-visible{outline:2px solid #baff00;outline-offset:3px}
+@keyframes ravenAmbient{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-4%,5%,0) scale(1.09)}}
+@keyframes ravenRise{from{opacity:0;transform:translateY(13px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:850px){.raven-depth{transform:none!important}.raven-final-hero::before{right:-45%;top:-8%}}
+@media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}.raven-final-hero::before,.raven-final-hero .hero-text h1,.raven-final-hero .hero-description,.raven-final-hero .hero-buttons{animation:none!important}.raven-depth,.raven-catalog-card,.raven-price-card,.service-card,.project{transition:none!important;transform:none!important}}
