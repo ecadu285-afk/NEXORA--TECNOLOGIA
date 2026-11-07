@@ -229,3 +229,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.matches) {panel.style.setProperty('--raven-x', '0deg');panel.style.setProperty('--raven-y', '0deg');}
   });
 })();
+
+// Raven 4.1: atalhos das áreas para o catálogo existente.
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('[data-r41-search]').forEach(link => {
+    link.addEventListener('click', () => {
+      const search = document.getElementById('ravenCatalogSearch');
+      if (!search) return;
+      search.value = link.dataset.r41Search || '';
+      search.dispatchEvent(new Event('input', {bubbles:true}));
+    });
+  });
+  const header = document.querySelector('.header');
+  const update = () => header?.classList.toggle('r41-scrolled', window.scrollY > 30);
+  window.addEventListener('scroll', update, {passive:true}); update();
+});
