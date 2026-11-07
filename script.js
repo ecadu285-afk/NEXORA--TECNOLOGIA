@@ -244,3 +244,43 @@ document.addEventListener('DOMContentLoaded', () => {
   const update = () => header?.classList.toggle('r41-scrolled', window.scrollY > 30);
   window.addEventListener('scroll', update, {passive:true}); update();
 });
+
+
+// RAVEN 2.0 — Quatro soluções interativas no painel da abertura.
+document.addEventListener('DOMContentLoaded', () => {
+  const card = document.querySelector('.r41-visual-card');
+  const main = document.getElementById('ravenShowcaseMain');
+  const panel = document.getElementById('r20Experience');
+  if (!card || !main || !panel) return;
+  const choice = document.getElementById('r20Choice');
+  const detail = document.getElementById('r20Detail');
+  const open = document.getElementById('r20Open');
+  const close = document.getElementById('r20Close');
+  const back = document.getElementById('r20Back');
+  const quote = document.getElementById('r20Quote');
+  const catalog = document.getElementById('r20Catalog');
+  const services = {
+    web:{label:'WEB DESIGN',title:'Criação de Sites',desc:'Sites profissionais, responsivos e preparados para apresentar seu negócio.',items:['Landing pages e sites institucionais','Portfólios e catálogos digitais','Integração com WhatsApp'],quote:'Raven Start — R$ 450',search:'site'},
+    pc:{label:'HARDWARE',title:'Manutenção de Computadores',desc:'Diagnóstico e manutenção para melhorar a confiabilidade do equipamento.',items:['Diagnóstico e limpeza','Instalação de SSD e memória','Montagem e upgrades'],quote:'Manutenção PC',search:'computador'},
+    suporte:{label:'INFORMÁTICA',title:'Suporte Técnico',desc:'Assistência para resolver problemas com programas e sistemas.',items:['Configuração de programas e drivers','Diagnóstico de falhas de software','Orientação e suporte técnico'],quote:'Suporte Técnico',search:'suporte'},
+    redes:{label:'CONECTIVIDADE',title:'Redes e TI',desc:'Configuração e diagnóstico para manter seus dispositivos conectados.',items:['Configuração de Wi-Fi e roteadores','Diagnóstico de conexão','Organização de redes locais'],quote:'Redes e TI',search:'rede'}
+  };
+  let selected = null;
+  function showPanel(){main.hidden=true;panel.hidden=false;choice.hidden=false;detail.hidden=true;open.setAttribute('aria-expanded','true');close.focus();}
+  function hidePanel(){panel.hidden=true;main.hidden=false;open.setAttribute('aria-expanded','false');open.focus();}
+  function showDetail(key){const item=services[key];if(!item)return;selected=item;choice.hidden=true;detail.hidden=false;
+    document.getElementById('r20DetailLabel').textContent=item.label;
+    document.getElementById('r20DetailTitle').textContent=item.title;
+    document.getElementById('r20DetailDesc').textContent=item.desc;
+    const ul=document.getElementById('r20DetailList');ul.replaceChildren(...item.items.map(t=>{const li=document.createElement('li');li.textContent=t;return li;}));
+    back.focus();}
+  open.addEventListener('click',showPanel);
+  document.getElementById('r20Explore').addEventListener('click',showPanel);
+  close.addEventListener('click',hidePanel);
+  back.addEventListener('click',()=>{detail.hidden=true;choice.hidden=false;choice.querySelector('button')?.focus();});
+  panel.querySelectorAll('[data-r20-service]').forEach(button=>button.addEventListener('click',()=>showDetail(button.dataset.r20Service)));
+  function selectQuote(){if(!selected)return;window.ravenEscolherServico?.(selected.quote);}
+  quote.addEventListener('click',selectQuote);
+  catalog.addEventListener('click',()=>{if(!selected)return;const search=document.getElementById('ravenCatalogSearch');if(search){search.value=selected.search;search.dispatchEvent(new Event('input',{bubbles:true}));}});
+  document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!panel.hidden){hidePanel();}});
+});
